@@ -20,12 +20,10 @@ class TaskApplication(
 
     private var screenCallback : (Screen) -> Unit = NoActionScreenCallback
     private lateinit var screen: Screen
-    private val tasks = mutableListOf<String>()
 
     fun open() {
         scheduler.schedule {
-            tasks.addAll(repository.getTasks())
-            updateScreen(TaskListScreen(tasks))
+            updateScreen(TaskListScreen(repository.getTasks()))
         }
     }
 
@@ -45,8 +43,7 @@ class TaskApplication(
     fun saveTask(description: String) {
         scheduler.schedule {
             repository.saveTask(description)
-            tasks.add(description)
-            updateScreen(TaskListScreen(tasks))
+            updateScreen(TaskListScreen(repository.getTasks()))
         }
     }
 
